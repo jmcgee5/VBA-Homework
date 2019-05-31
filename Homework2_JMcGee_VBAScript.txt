@@ -1,0 +1,62 @@
+Sub Stock_Market()
+'
+  Range("I1").Value = "Ticker"
+  
+  Range("J1").Value = "Total Stock Volume"
+  
+  ' Set an initial variable for holding the Ticker
+  Dim Ticker As String
+
+  ' Set an initial variable for holding the total stock volume per Ticker symbol
+  Dim StockVol_Total As Double
+  StockVol_Total = 0
+
+  ' Keep track of the location for each ticker in the summary table
+  Dim Summary_Table_Row As Integer
+  Summary_Table_Row = 2
+
+
+  NumRows = Range("A1", Range("A1").End(xlDown)).Rows.Count
+  
+  
+  ' Loop through all rows
+  For i = 2 To NumRows
+    
+    ' Check if we are still within the same ticker, if it is not...
+    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+      ' Set the Ticker
+      Ticker = Cells(i, 1).Value
+
+      ' Add to the Stock Volume Total
+      StockVol_Total = StockVol_Total + Cells(i, 7).Value
+  
+      ' Print the Ticker in the Summary Table
+      Range("I" & Summary_Table_Row).Value = Ticker
+
+      ' Print the Stock Volume to the Summary Table
+      Range("J" & Summary_Table_Row).Value = StockVol_Total
+  
+    
+      ' Add one to the summary table row
+      Summary_Table_Row = Summary_Table_Row + 1
+      
+      
+      ' Reset the Stock Volume Total
+      StockVol_Total = 0
+
+    ' If the cell immediately following a row is the same ticker...
+    Else
+
+      ' Add to the StockVol Total
+      StockVol_Total = StockVol_Total + Cells(i, 7).Value
+
+    End If
+       
+  Next i
+
+
+
+End Sub
+
+
